@@ -99,6 +99,13 @@ public class MainActivity extends Activity {
         params.append("UID").append("=").append(uid);
         return getResponseStr(path, params);
     }
+    //http://ip:port/eomfront/getAppNum.do? OPTCARDNO=xxx&OPTCODE=xxx
+    public String getAppNum(String path,String optCardNo,String optCode) {
+        StringBuffer params = new StringBuffer();
+        params.append("OPTCARDNO").append("=").append(optCardNo).append("&")
+                .append("OPTCODE").append("=").append(optCode);
+        return getResponseStr(path, params);
+    }
     //
 
 
