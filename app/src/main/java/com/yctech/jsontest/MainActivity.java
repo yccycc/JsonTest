@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends Activity {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,7 @@ public class MainActivity extends Activity {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                loginUid("http://10.0.3.2:8080/ewrrew/servlet/loginUid","","","");
+              loginUid("http://10.0.3.2:8080/ewrrew/servlet/loginUid","","","");
             }
         });
     }
@@ -45,12 +44,21 @@ public class MainActivity extends Activity {
     /**
      *
      * @param path
-     * @param optCardNo  操作员卡序列号
-     * @param busiCardno 操作员卡序列号
-     * @param devSn       现场服务终端序列号
+     * @param optCardNo 操作员卡序列号
+     * @param busiCardno 业务卡序列号
+     * @param devSn    现场服务终端序列号
      */
     public void loginUid(String path,String optCardNo,String busiCardno,String devSn)
     {
+        StringBuffer params = new StringBuffer();
+        params.append("OPTCARDNO").append("=").append(optCardNo).append("&")
+                .append("BUSICARDNO").append("=").append(busiCardno).append("&")
+                .append("DEV_SN").append("=").append(devSn);
+        getResponseStr(path,params);
+    }
+    public String getResponseStr(String path, StringBuffer params)
+    {
+        String returnContent = "";
         HttpURLConnection conn = null;
         try {
             URL url = new URL(path);
@@ -58,17 +66,13 @@ public class MainActivity extends Activity {
             conn.setConnectTimeout(5 * 1000);
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            StringBuffer params = new StringBuffer();
-            params.append("OPTCARDNO").append("=").append(optCardNo).append("&")
-                    .append("BUSICARDNO").append("=").append(busiCardno).append("&")
-                    .append("DEV_SN").append("=").append(devSn);
             byte[] bypes = params.toString().getBytes();
             conn.getOutputStream().write(bypes);
             Log.i("dabitch", conn.getResponseCode() + "");
             if(200==conn.getResponseCode())
             {
                 InputStream inStream=conn.getInputStream();
-                String returnContent = new String(readInputStream(inStream));
+                returnContent = new String(readInputStream(inStream));
                 Log.i("dabitch",returnContent);
             }
         } catch (MalformedURLException e) {
@@ -80,6 +84,7 @@ public class MainActivity extends Activity {
         }finally {
             conn.disconnect();
         }
+        return  returnContent;
     }
     public byte[] readInputStream(InputStream inStream) throws Exception{
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -93,4 +98,5 @@ public class MainActivity extends Activity {
         inStream.close();
         return data;
     }
+    //
 }
