@@ -42,20 +42,75 @@ public class MainActivity extends Activity {
     }
 
     /**
-     *
+     *http://ip:port/eomfront/ loginUid.do? OPTCARDNO=xxx&BUSICARDNO =xxx&M1=xxx
      * @param path
      * @param optCardNo 操作员卡序列号
      * @param busiCardno 业务卡序列号
      * @param devSn    现场服务终端序列号
      */
-    public void loginUid(String path,String optCardNo,String busiCardno,String devSn)
+    public String loginUid(String path,String optCardNo,String busiCardno,String devSn)
     {
         StringBuffer params = new StringBuffer();
         params.append("OPTCARDNO").append("=").append(optCardNo).append("&")
                 .append("BUSICARDNO").append("=").append(busiCardno).append("&")
                 .append("DEV_SN").append("=").append(devSn);
-        getResponseStr(path,params);
+        return getResponseStr(path,params);
     }
+
+    /**
+     * http://ip:port/eomfront/ loginIdauth.do? UID =xxx&OPTCODE=xxx&M=xxx&MS=xxx
+     * @param path
+     * @param uid
+     * @param optCode
+     * @param m
+     * @param ms
+     * @return
+     */
+    public String loginIdauth(String path,String uid,String optCode,String m,String ms)
+    {
+        StringBuffer params = new StringBuffer();
+        params.append("UID").append("=").append(uid).append("&")
+                .append("OPTCODE").append("=").append(optCode).append("&")
+                .append("M").append("=").append(m).append("&")
+                .append("MS").append("=").append(ms);
+        return getResponseStr(path,params);
+    }
+    //http://ip:port/eomfront/ logout.do? UID =xxx
+    public String logout(String path,String uid) {
+        StringBuffer params = new StringBuffer();
+        params.append("UID").append("=").append(uid);
+        return getResponseStr(path, params);
+    }
+    //http://ip:port/eomfront/ updateDev.do? UID =xxx
+    public String updateDev(String path,String uid) {
+        StringBuffer params = new StringBuffer();
+        params.append("UID").append("=").append(uid);
+        return getResponseStr(path, params);
+    }
+    //http://ip:port/eomfront/ cardContUpdate.do? UID=xxx
+    public String cardContUpdate(String path,String uid) {
+        StringBuffer params = new StringBuffer();
+        params.append("UID").append("=").append(uid);
+        return getResponseStr(path, params);
+    }
+    //http://ip:port/eomfront/ commParmUpdate.do? UID=xxx
+    public String commParmUpdate(String path,String uid) {
+        StringBuffer params = new StringBuffer();
+        params.append("UID").append("=").append(uid);
+        return getResponseStr(path, params);
+    }
+    //
+
+
+
+
+
+
+
+
+
+
+
     public String getResponseStr(String path, StringBuffer params)
     {
         String returnContent = "";
